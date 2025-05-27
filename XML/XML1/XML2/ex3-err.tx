@@ -1,0 +1,34 @@
+Errores encontrados en error.xml:
+1. Los elementos <president> y <secretary> están mal anidados con <extension>. No se pueden cerrar etiquetas en orden incorrecto.
+2. El texto del president y secretary está mezclado con la etiqueta <extension>, lo que dificulta la estructura.
+3. Falta agrupar correctamente los datos de cada persona (presidente y secretario) en elementos propios.
+4. El archivo no es válido XML debido a los errores de anidamiento.
+
+XML corregido:
+<?xml version="1.0" encoding="UTF-8"?>
+<phonebook>
+  <company>
+    <cname>Microsoft</cname>
+    <exchange>09-999000</exchange>
+    <president>
+      <name>Bill Gates</name>
+      <extension>09-9990011</extension>
+    </president>
+    <secretary>
+      <name>Katharine Finch</name>
+      <extension>09-9990012</extension>
+    </secretary>
+  </company>
+  <company>
+    <cname>Oracle</cname>
+    <exchange>09-888000</exchange>
+    <president>
+      <name>Larry Ellison</name>
+      <extension>09-8880011</extension>
+    </president>
+    <secretary>
+      <name>Helen Calhoun</name>
+      <extension>09-8880012</extension>
+    </secretary>
+  </company>
+</phonebook>

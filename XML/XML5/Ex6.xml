@@ -1,0 +1,21 @@
+<letter>
+  <sender>
+    <name>Maria López</name>
+    <address>Calle Mayor 123, 28013 Madrid, España</address>
+    <email>maria.lopez@email.com</email>
+  </sender>
+  <receiver>
+    <name>Juan Pérez</name>
+    <address>Avenida del Sol 45, 29010 Málaga, España</address>
+    <email>juan.perez@email.com</email>
+  </receiver>
+  <date>2025-05-25</date>
+  <body>
+    Estimado Juan,
+    <br/>
+    Espero que te encuentres bien. Te escribo para informarte que la reunión se ha pospuesto para la próxima semana. Por favor, confirma tu disponibilidad.
+    <br/>
+    Un cordial saludo,
+  </body>
+  <signature>Maria López</signature>
+</letter>

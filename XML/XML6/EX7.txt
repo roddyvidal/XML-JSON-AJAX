@@ -1,0 +1,8 @@
+a. ¿Cómo son los comentarios en XML? (sección 2.5)
+Los comentarios en XML se escriben así: <!-- Esto es un comentario -->. No pueden contener dos guiones seguidos (--) en su interior.
+
+b. ¿Puede repetirse un atributo en el mismo elemento? (sección 3.1)
+No, un atributo no puede repetirse en el mismo elemento. Cada atributo debe aparecer solo una vez por elemento.
+
+c. ¿Dónde se indica que los nombres de los elementos en las etiquetas de apertura y cierre deben coincidir?
+Esto se indica en la sección 3 del estándar, donde se especifica que el nombre del elemento en la etiqueta de cierre debe ser exactamente igual al de la etiqueta de apertura.
