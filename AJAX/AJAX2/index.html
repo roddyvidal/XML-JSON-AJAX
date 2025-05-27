@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>El Tiempo en Huelva</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #888; padding: 6px 12px; }
+        th { background: #eee; }
+    </style>
+</head>
+<body>
+    <h1>Información meteorológica de Huelva</h1>
+    <button onclick="cargarTiempo()">Mostrar el tiempo</button>
+    <div id="meteo"></div>
+
+    <script>
+    function cargarTiempo() {
+        // Coordenadas aproximadas de Huelva
+        const lat = 37.2614;
+        const lon = -6.9447;
+        // API Open-Meteo
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,weathercode,windspeed_10m,winddirection_10m,relativehumidity_2m&forecast_days=1&timezone=Europe%2FMadrid`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                const horas = data.hourly.time;
+                const temp = data.hourly.temperature_2m;
+                const estado = data.hourly.weathercode;
+                const viento = data.hourly.windspeed_10m;
+                const direccion = data.hourly.winddirection_10m;
+                const humedad = data.hourly.relativehumidity_2m;
+
+                // Calcular temperatura máxima y mínima
+                const tmax = Math.max(...temp);
+                const tmin = Math.min(...temp);
+
+                let html = `<p><strong>Temperatura máxima:</strong> ${tmax}°C<br>
+                            <strong>Temperatura mínima:</strong> ${tmin}°C</p>`;
+                html += `<table>
+                    <tr>
+                        <th>Hora</th>
+                        <th>Temp (°C)</th>
+                        <th>Estado</th>
+                        <th>Viento (km/h)</th>
+                        <th>Dirección</th>
+                        <th>Humedad (%)</th>
+                    </tr>`;
+
+                // Mostrar cada 3 horas
+                for (let i = 0; i < horas.length; i += 3) {
+                    html += `<tr>
+                        <td>${horas[i].substring(11, 16)}</td>
+                        <td>${temp[i]}</td>
+                        <td>${descripcionEstado(estado[i])}</td>
+                        <td>${viento[i]}</td>
+                        <td>${direccion[i]}°</td>
+                        <td>${humedad[i]}</td>
+                    </tr>`;
+                }
+                html += `</table>`;
+                document.getElementById('meteo').innerHTML = html;
+            });
+    }
+
+    // Traducción simple de códigos meteorológicos Open-Meteo
+    function descripcionEstado(code) {
+        const estados = {
+            0: "Despejado",
+            1: "Principalmente despejado",
+            2: "Parcialmente nublado",
+            3: "Nublado",
+            45: "Niebla",
+            48: "Niebla con escarcha",
+            51: "Llovizna ligera",
+            53: "Llovizna moderada",
+            55: "Llovizna densa",
+            61: "Lluvia ligera",
+            63: "Lluvia moderada",
+            65: "Lluvia intensa",
+            80: "Chubascos ligeros",
+            81: "Chubascos moderados",
+            82: "Chubascos fuertes"
+        };
+        return estados[code] || "Desconocido";
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!-- Puedes guardar este archivo como index.html en la misma carpeta que cdcatalog.xml -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Catálogo de CDs</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #888;
+            padding: 6px 12px;
+            text-align: left;
+        }
+        th {
+            background: #eee;
+        }
+        #cdTable {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Catálogo de CDs</h1>
+    <button id="toggleBtn">Mostrar catálogo</button>
+    <div id="tableContainer"></div>
+
+    <script>
+        let tableVisible = false;
+        let tableLoaded = false;
+
+        document.getElementById('toggleBtn').onclick = function() {
+            const tableDiv = document.getElementById('tableContainer');
+            if (!tableLoaded) {
+                // Cargar datos solo la primera vez
+                fetch('cdcatalog.xml')
+                    .then(response => response.text())
+                    .then(str => (new window.DOMParser()).parseFromString(str, "text/xml"))
+                    .then(data => {
+                        const cds = data.getElementsByTagName('CD');
+                        let html = '<table id="cdTable"><thead><tr>';
+                        html += '<th>Título</th><th>Artista</th><th>País</th><th>Compañía</th><th>Precio</th><th>Año</th>';
+                        html += '</tr></thead><tbody>';
+                        for (let cd of cds) {
+                            html += '<tr>';
+                            html += `<td>${cd.getElementsByTagName('TITLE')[0].textContent}</td>`;
+                            html += `<td>${cd.getElementsByTagName('ARTIST')[0].textContent}</td>`;
+                            html += `<td>${cd.getElementsByTagName('COUNTRY')[0].textContent}</td>`;
+                            html += `<td>${cd.getElementsByTagName('COMPANY')[0].textContent}</td>`;
+                            html += `<td>${cd.getElementsByTagName('PRICE')[0].textContent}</td>`;
+                            html += `<td>${cd.getElementsByTagName('YEAR')[0].textContent}</td>`;
+                            html += '</tr>';
+                        }
+                        html += '</tbody></table>';
+                        tableDiv.innerHTML = html;
+                        document.getElementById('cdTable').style.display = 'table';
+                        tableLoaded = true;
+                        tableVisible = true;
+                        document.getElementById('toggleBtn').textContent = 'Ocultar catálogo';
+                    });
+            } else {
+                // Mostrar/ocultar la tabla
+                const table = document.getElementById('cdTable');
+                if (tableVisible) {
+                    table.style.display = 'none';
+                    document.getElementById('toggleBtn').textContent = 'Mostrar catálogo';
+                } else {
+                    table.style.display = 'table';
+                    document.getElementById('toggleBtn').textContent = 'Ocultar catálogo';
+                }
+                tableVisible = !tableVisible;
+            }
+        }
+    </script>
+</body>
+</html>
